@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ## README
+# /!\ This script has been tailored for my own personal needs. Don’t start it without checking every lines ! /!\
 # /!\ Ce script d'installation est conçu pour mon usage. Ne le lancez pas sans vérifier chaque commande ! /!\
 
 ## La base : Homebrew et les lignes de commande
@@ -11,13 +12,17 @@ then
 fi
 
 # Vérifier que tout est bien à jour
+echo 'Updating Hombrew / Mise à jour de Homebrew'
 brew update
+echo
 
 ## Utilitaires pour les autres apps : Cask et mas (Mac App Store)
 echo 'Installation de mas, pour installer les apps du Mac App Store.'
 brew install mas
+echo
 echo "Saisir le mail du compte iTunes :" 
 read COMPTE
+echo
 echo "Saisir le mot de passe du compte : $COMPTE"
 read -s PASSWORD
 mas signin $COMPTE "$PASSWORD"
@@ -30,9 +35,11 @@ function install () {
 
 	if [ "$?" == 0 ]; then
 		echo "==> $1 est déjà installée"
+		echo
 	else
 		echo "==> Installation de $1..."
 		mas search "$1" | { read app_ident app_name ; mas install $app_ident ; }
+		echo
 	fi
 }
 
@@ -55,15 +62,13 @@ echo 'Installation des outils en ligne de commande.'
 #brew tap zyedidia/micro
 #brew install micro
 #gem install sass
-brew install ansible ansible-cmdb awscli fleetctl git numpy opencv parallel php55 pyenv pyenv-virtualenv pyenv-virtualenvwrapper python python3 scipy ssh-copy-id vim wget zsh
+brew install ansible ansible-cmdb awscli fleetctl git numpy opencv parallel php55 pyenv pyenv-virtualenv pyenv-virtualenvwrapper python python3 scipy ssh-copy-id vim wget zsh  zsh-completions
 echo
 
 echo 'Installation des apps : utilitaires.'
 #brew cask install alfred sizeup typinator istat-menus google-drive seafile-client flux appcleaner backblaze hosts carbon-copy-cloner aerial
 #brew cask uninstall alfred sizeup typinator istat-menus seafile-client flux appcleaner backblaze carbon-copy-cloner aerial xld
-brew cask install 1password bartender beardedspice controlplane geektool itsycal mackup spectacle synergy
-#install "FastScripts"
-#install "PopClip"
+brew cask install 1password bartender beardedspice controlplane geektool hosts itsycal mackup spectacle synergy
 install "Amphetamine"
 install "MacTracker"
 echo
@@ -75,30 +80,19 @@ echo
 #cd /tmp/ && curl -O http://cdn3.brettterpstra.com/downloads/SearchLink2.2.3.zip && unzip SearchLink2.2.3.zip && cd SearchLink2.2.3 && mv SearchLink.workflow ~/Library/Services/
 
 echo 'Installation des apps : bureautique.'
-#install "iA Writer"
-#install "Ulysses"
-#install "Marked"
+brew cask install libreoffice
 
 #install "Pages"
 #install "Keynote"
 #install "Numbers"
 
-#install "Soulver"
-#install "Simplenote"
-brew cask install libreoffice
 echo
 
 echo 'Installation des apps : développement.'
 brew install hugo
-#brew cask install iterm2 github-desktop textmate tower coda atom wordpresscom transmit
-brew cask uninstall tower
-brew cask install atom bbedit iterm2 textmate
+brew cask install atom bbedit iterm2 studio-3t textmate
 install "Xcode"
-#install "TextWrangler"
-#install “BBEdit”
 install "Quiver"
-#install "JSON Helper for AppleScript"
-#install "Twitter Scripter"
 echo
 
 echo 'Installation des apps : Machine Learning.'
@@ -107,13 +101,8 @@ brew cask install anaconda rstudio
 echo
 
 echo 'Installation des apps : communication.'
-#install "Reeder"
-#install "Twitter"
-#install "Tweetbot"
-#install "1Password"
-#install "Wunderlist"
-#brew cask install google-chrome firefox mattermost transmission
 brew cask install cyberduck google-chrome firefox
+install “Slack”
 echo
 
 #echo 'Installation des apps : photo et vidéo.'
@@ -142,6 +131,11 @@ echo
 
 ## ************************* CONFIGURATION ********************************
 echo "Configuration de quelques paramètres par défaut…"
+
+## TERMINAL
+
+# ZSH
+curl -L git.io/antigen > $HOME/antigen.zsh
 
 ## FINDER
 
@@ -207,10 +201,10 @@ sudo defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 # Arrêt pop-up clavier façon iOS
 sudo defaults write -g ApplePressAndHoldEnabled -bool false
 
-# Répétition touches plus rapide
-sudo defaults write NSGlobalDomain KeyRepeat -int 1
-# Délai avant répétition des touches
-sudo defaults write NSGlobalDomain InitialKeyRepeat -int 10
+## Répétition touches plus rapide
+#sudo defaults write NSGlobalDomain KeyRepeat -int 1
+## Délai avant répétition des touches
+#sudo defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 # Alertes sonores quand on modifie le volume
 sudo defaults write com.apple.systemsound com.apple.sound.beep.volume -float 1
